@@ -17,7 +17,7 @@ const fontLoader = new THREE.FontLoader();
 fontLoader.load("https://unpkg.com/three@0.128.0/examples/fonts/helvetiker_regular.typeface.json", function (
   font
 ) {
-  const textGeometry = new THREE.TextGeometry("LIT farms", {
+  const textGeometry = new THREE.TextGeometry("yourethemannowdog", {
     font: font,
     size: 1,
     height: 0.1,
