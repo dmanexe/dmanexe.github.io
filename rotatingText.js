@@ -17,7 +17,7 @@ const fontLoader = new THREE.FontLoader();
 fontLoader.load("https://unpkg.com/three@0.128.0/examples/fonts/helvetiker_regular.typeface.json", function (
   font
 ) {
-  const textGeometry = new THREE.TextGeometry("Kushify", {
+  const textGeometry = new THREE.TextGeometry("LIT farms", {
     font: font,
     size: 1,
     height: 0.1,
@@ -39,14 +39,37 @@ fontLoader.load("https://unpkg.com/three@0.128.0/examples/fonts/helvetiker_regul
   // Set the camera position
   camera.position.z = 5;
 
+  // Add touch event listeners
+  let dragging = false;
+  let lastTouchX = 0;
+  let lastTouchY = 0;
+
+  document.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    dragging = true;
+    lastTouchX = e.touches[0].clientX;
+    lastTouchY = e.touches[0].clientY;
+  });
+
+  document.addEventListener("touchmove", (e) => {
+    if (dragging) {
+      const deltaX = e.touches[0].clientX - lastTouchX;
+      const deltaY = e.touches[0].clientY - lastTouchY;
+      lastTouchX = e.touches[0].clientX;
+      lastTouchY = e.touches[0].clientY;
+
+      textMesh.rotation.x += deltaY * 0.01;
+      textMesh.rotation.y += deltaX * 0.01;
+    }
+  });
+
+  document.addEventListener("touchend", () => {
+    dragging = false;
+  });
+
   // Animation loop
   const animate = function () {
     requestAnimationFrame(animate);
-
-    // Rotate the text
-    textMesh.rotation.x += 0.01;
-    textMesh.rotation.y += 0.01;
-
     renderer.render(scene, camera);
   };
 
